@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hyth.taskflow.application.service.UserApplicationService;
 import com.hyth.taskflow.domain.model.User;
-import com.hyth.taskflow.interfaces.rest.dto.UserStoreDto;
-import com.hyth.taskflow.interfaces.rest.dto.UserUpdateDto;
-import com.hyth.taskflow.interfaces.rest.dto.UserResponseDto;
+import com.hyth.taskflow.interfaces.rest.dto.user.UserResponseDto;
+import com.hyth.taskflow.interfaces.rest.dto.user.UserStoreDto;
+import com.hyth.taskflow.interfaces.rest.dto.user.UserUpdateDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

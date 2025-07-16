@@ -1,4 +1,4 @@
-package com.hyth.taskflow.interfaces.rest.dto;
+package com.hyth.taskflow.interfaces.rest.dto.user;
 
 import com.hyth.taskflow.domain.model.User;
 
