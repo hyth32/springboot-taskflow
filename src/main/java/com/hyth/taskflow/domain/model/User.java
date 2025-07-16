@@ -27,4 +27,8 @@ public class User {
     public User withPassword(String password) {
         return new User(this.id, this.username, this.email, password);
     }
+
+    public boolean checkPassword(String password) {
+        return this.getPassword().equals(password);
+    }
 }

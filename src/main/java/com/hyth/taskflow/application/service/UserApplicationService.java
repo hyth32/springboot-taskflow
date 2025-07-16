@@ -24,6 +24,13 @@ public class UserApplicationService {
             .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.findAll().stream()
+            .filter(user -> user.getUsername().equals(username))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+    }
+
     public User createUser(User user) {
         return userRepository.save(user);
     }
