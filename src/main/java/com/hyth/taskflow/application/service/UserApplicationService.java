@@ -28,9 +28,9 @@ public class UserApplicationService {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, String username, String email, String password) {
+    public User updateUser(Long id, String username, String email) {
         User user = getUserById(id);
-        return userRepository.save(user.withUsername(username).withEmail(email).withPassword(password));
+        return userRepository.save(user.withUsername(username).withEmail(email));
     }
 
     public User changePassword(Long id, String newPassword) {

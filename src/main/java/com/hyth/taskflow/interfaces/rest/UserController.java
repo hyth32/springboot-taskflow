@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hyth.taskflow.application.service.UserApplicationService;
 import com.hyth.taskflow.domain.model.User;
-import com.hyth.taskflow.interfaces.rest.dto.UserDto;
+import com.hyth.taskflow.interfaces.rest.dto.UserStoreDto;
+import com.hyth.taskflow.interfaces.rest.dto.UserUpdateDto;
+import com.hyth.taskflow.interfaces.rest.dto.UserResponseDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,33 +32,36 @@ public class UserController {
 
     @GetMapping
     @Operation(summary = "Get all users", description = "Retrieves a list of all users in the system")
-    public List<User> getAllUsers() {
-        return userApplicationService.getAllUsers();
+    public List<UserResponseDto> getAllUsers() {
+        List<User> users = userApplicationService.getAllUsers();
+        return users.stream()
+            .map(UserResponseDto::from)
+            .toList();
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get user by ID", description = "Retrieves a user by their unique ID")
-    public User getUserById(@PathVariable Long id) {
-        return userApplicationService.getUserById(id);
+    public UserResponseDto getUserById(@PathVariable Long id) {
+        return UserResponseDto.from(userApplicationService.getUserById(id));
     }
 
     @PostMapping
     @Operation(summary = "Create a new user", description = "Creates a new user with the provided details")
-    public User createUser(@RequestBody UserDto userDto) {
+    public UserResponseDto createUser(@RequestBody @Valid UserStoreDto userDto) {
         User user = new User(null, userDto.getUsername(), userDto.getEmail(), userDto.getPassword());
-        return userApplicationService.createUser(user);
+        return UserResponseDto.from(userApplicationService.createUser(user));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update user details", description = "Updates the details of an existing user")
-    public User updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        return userApplicationService.updateUser(id, userDto.getUsername(), userDto.getEmail(), userDto.getPassword());
+    public UserResponseDto updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDto userDto) {
+        return UserResponseDto.from(userApplicationService.updateUser(id, userDto.getUsername(), userDto.getEmail()));
     }
     
     @PutMapping("/{id}/change-password")
     @Operation(summary = "Change user password", description = "Changes the password of an existing user")
-    public User changePassword(@PathVariable Long id, @RequestBody String newPassword) {
-        return userApplicationService.changePassword(id, newPassword);
+    public UserResponseDto changePassword(@PathVariable Long id, @RequestBody String newPassword) {
+        return UserResponseDto.from(userApplicationService.changePassword(id, newPassword));
     }
 
     @DeleteMapping("/{id}")
